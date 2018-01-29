@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Insta Pano</string>
+    <string name="button_choose_photo"><b>choose photo</b></string>
+    <string name="button_take_photo"><b>take photo</b></string>
+    <string name="button_save_pano"><b>save</b></string>
+
+    <string name="default_parts_quantity">2</string>
+    <string name="maximum_parts_quantity">10</string>
+
+    <string name="permission_denied">Permission denied</string>
+    <string name="cut_error">parts of the image will not fit instagram. please set bounds with green area</string>
+
+    <!--menu-->
+    <string name="action_settings">Settings</string>
+    <string name="action_save">Save</string>
+    <string name="action_preview">Preview</string>
+    <string name="action_instructions">Instructions</string>
+
+    <!--preference categories-->
+    <string name="pref_category_colors_title">colors</string>
+    <string name="pref_category_other_title">other</string>
+
+    <!--preferences-->
+    <string name="pref_format_label">output format</string>
+    <string name="pref_format_key">output_format</string>
+
+    <!--preferences colors-->
+    <string name="format_jpg_value" translatable="false">jpg</string>
+    <string name="format_jpg_label">JPG</string>
+
+    <string name="format_png_value" translatable="false">png</string>
+    <string name="format_png_label">PNG</string>
+
+    <!--instructions-->
+
+
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="pref_output_format_labels">
+        <item>@string/format_png_label</item>
+        <item>@string/format_jpg_label</item>
+    </array>
+
+    <array name="pref_output_format_values">
+        <item>@string/format_png_value</item>
+        <item>@string/format_jpg_value</item>
+    </array>
+
+</resources>
