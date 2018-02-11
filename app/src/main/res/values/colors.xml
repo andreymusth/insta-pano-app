@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorButtons">#42a5f5</color>
-    <color name="colorPrimaryDark">#00796B</color>
-    <color name="colorPrimary">#009688</color>
-    <color name="colorCorners">#b4b4a5</color>
+    <color name="colorButtons">#ff6e40</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimary">#2196F3</color>
     <color name="colorFaint">#FFFFFF</color>
-    <color name="colorAccent">#448AFF</color>
+    <color name="colorAccent">#FF5722</color>
     <color name="primaryText">#212121</color>
-    <color name="lightPrimaryColor">#dcefed</color>
-    
-    
-    <!--colors for drawing limiterview-->
-    <color name="colorWhite">#FFFFFF</color>
-    <color name="colorWhite_faint"></color>
-    
+    <color name="lightPrimaryColor">#e3f2fd</color>
+
 </resources>

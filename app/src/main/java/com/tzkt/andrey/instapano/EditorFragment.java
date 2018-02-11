@@ -40,6 +40,8 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
     private static final int MIN_PARTS_QUANTITY = 2;
     private static final int MAX_PARTS_QUANTITY = 10;
 
+    private static final String PARTS_QUANTITY_KEY = "parts_quantity";
+
     private LimiterView mLimiterView;
     private Callbacks mCallbacks;
 
@@ -61,6 +63,13 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
         return fragment;
     }
 
+    public static EditorFragment newInstance(Bitmap takenPhoto) {
+
+        EditorFragment fragment = new EditorFragment();
+        fragment.setBitmap(takenPhoto);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +79,6 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
         if (bundle != null) {
             mImagePath = Uri.parse(bundle.getString(IMAGE_PATH));
         }
-
     }
 
     @Override
@@ -102,14 +110,16 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int itemId = item.getItemId();
-
-        if (android.R.id.home == itemId) {
-            getActivity().onBackPressed();
-        }
-
-        if (R.id.action_preview == itemId) {
-            onDoubleTap();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
+            case R.id.action_preview:
+                onDoubleTap();
+                return true;
+            case R.id.action_rotate_right:
+                mCallbacks.onButtonClicked(R.id.action_rotate_right);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -125,10 +135,12 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_editor, container, false);
-        try {
-            mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver() , mImagePath);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (mBitmap == null) {
+            try {
+                mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mImagePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         mCurrentParts = v.findViewById(R.id.tv_current_parts);
@@ -141,10 +153,19 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
         mRemoveBtn.setOnClickListener(this);
 
         if (mBitmap != null) {
-            mLimiterView = new LimiterView(getActivity());
-            mLimiterView.setOnDoubleTapListener(this);
+            if (mLimiterView == null) {
+                mLimiterView = new LimiterView(getActivity());
+                mLimiterView.setOnDoubleTapListener(this);
+                mLimiterView.setZ(10f);
+            }
             mContainer = v.findViewById(R.id.fl_limiter_container);
             //mPicture.setImageBitmap(bitmap);
+
+            if (savedInstanceState != null) {
+                mPartsQuantity = Integer.parseInt(savedInstanceState.getString(PARTS_QUANTITY_KEY, "2"));
+                mCurrentParts.setText(savedInstanceState.getString(PARTS_QUANTITY_KEY, "2"));
+            }
+
             mContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -152,10 +173,11 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
                     mLimiterView.init(mBitmap, mPartsQuantity, mContainer.getTop(), mContainer.getBottom(), mContainer.getLeft(), mContainer.getRight());
                 }
             });
+            if(mLimiterView.getParent() != null)
+                ((ViewGroup) mLimiterView.getParent()).removeView(mLimiterView);
+            mContainer.addView(mLimiterView, 0);
 
         }
-        mLimiterView.setZ(10f);
-        mContainer.addView(mLimiterView, 0);
         return v;
     }
 
@@ -206,5 +228,21 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
 
     public interface Callbacks {
         public void onButtonClicked(int viewId);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(PARTS_QUANTITY_KEY, mCurrentParts.getText().toString());
+
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        mBitmap = bitmap;
+    }
+
+    public Bitmap getBitmap() {
+        return mBitmap;
     }
 }

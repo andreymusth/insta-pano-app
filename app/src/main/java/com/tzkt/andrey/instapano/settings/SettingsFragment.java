@@ -12,6 +12,7 @@ import android.support.v7.preference.PreferenceScreen;
 import android.view.MenuItem;
 
 import com.tzkt.andrey.instapano.R;
+import com.tzkt.andrey.instapano.utils.NavigationUtils;
 
 /**
  * Created by andrey on 08/01/2018.
@@ -67,12 +68,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int itemId = item.getItemId();
+        switch (item.getItemId()) {
 
-        if (android.R.id.home == itemId) {
+            case android.R.id.home:
 
-            getActivity().onBackPressed();
-            return true;
+                getActivity().onBackPressed();
+                return true;
+            case R.id.action_instructions:
+                NavigationUtils.openInstructions(getActivity());
         }
 
         return super.onOptionsItemSelected(item);

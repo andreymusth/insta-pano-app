@@ -3,6 +3,7 @@ package com.tzkt.andrey.instapano.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import com.tzkt.andrey.instapano.InstructionsActivity;
 import com.tzkt.andrey.instapano.PreviewActivity;
 import com.tzkt.andrey.instapano.settings.SettingsActivity;
 
@@ -19,6 +20,11 @@ public final class NavigationUtils {
 
     public static void openPreview(Context c){
         Intent intent = new Intent(c, PreviewActivity.class);
+        c.startActivity(intent);
+    }
+
+    public static void openInstructions(Context c) {
+        Intent intent = new Intent(c, InstructionsActivity.class);
         c.startActivity(intent);
     }
 }

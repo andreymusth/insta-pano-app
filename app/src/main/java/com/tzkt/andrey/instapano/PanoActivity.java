@@ -2,41 +2,40 @@ package com.tzkt.andrey.instapano;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.tzkt.andrey.instapano.limiter.LimiterView;
-import com.tzkt.andrey.instapano.settings.SettingsActivity;
+import com.tzkt.andrey.instapano.utils.BitmapUtils;
 import com.tzkt.andrey.instapano.utils.NavigationUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class PanoActivity extends SingleFragmentActivity implements EnterPageFragment.Callbacks,
         EditorFragment.Callbacks {
 
     public static final int PICK_IMAGE = 1;
-    private static final int REQUEST_STORAGE_PERMISSION = 2;
+    private static final int REQUEST_STORAGE_PERMISSION_CAMERA = 21;
+    private static final int REQUEST_STORAGE_PERMISSION_CHOOSER = 22;
     private static final int REQUEST_IMAGE_CAPTURE = 3;
 
-    private String mCurrentPhotoPath;
+    private static final String FILE_PROVIDER_AUTHORITY = "com.tzkt.andrey.fileprovider";
+
+    private String mTempPhotoPath;
 
     @Override
     public Fragment createFragment() {
@@ -48,25 +47,42 @@ public class PanoActivity extends SingleFragmentActivity implements EnterPageFra
 
         switch (actionId) {
             case R.id.btn_choose_photo:
-                openImageChooser();
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    requestPermission(REQUEST_STORAGE_PERMISSION_CHOOSER);
+                } else {
+                    openImageChooser();
+                }
                 break;
             case R.id.btn_take_photo:
                 if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
-
-                    // If you do not have permission, request it
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            REQUEST_STORAGE_PERMISSION);
+                    requestPermission(REQUEST_STORAGE_PERMISSION_CAMERA);
                 } else {
                     // Launch the camera if the permission exists
                     launchCamera();
                 }
                 break;
             case R.id.action_preview:
-
                 NavigationUtils.openPreview(this);
+                break;
+            case R.id.action_rotate_right:
+
+                // finding current fragment
+
+                FragmentManager fm = getSupportFragmentManager();
+
+                EditorFragment current = (EditorFragment) fm.findFragmentById(R.id.fragment_container);
+                Bitmap rotatedBitmap = BitmapUtils.rotateBitmap(current.getBitmap(), 90);
+                current.setBitmap(rotatedBitmap);
+
+                fm.beginTransaction()
+                        .detach(current)
+                        .attach(current)
+                        .commit();
 
                 break;
         }
@@ -75,20 +91,45 @@ public class PanoActivity extends SingleFragmentActivity implements EnterPageFra
 
     private void launchCamera() {
 
+        // Create the capture image intent
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the temporary File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = BitmapUtils.createTempImageFile(this);
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                ex.printStackTrace();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+
+                // Get the path of the temporary file
+                mTempPhotoPath = photoFile.getAbsolutePath();
+
+                // Get the content URI for the image file
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        FILE_PROVIDER_AUTHORITY,
+                        photoFile);
+
+                // Add the URI so the camera can store the image
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
+                // Launch the camera activity
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
+        }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // Called when you request permission to read and write to external storage
         switch (requestCode) {
-            case REQUEST_STORAGE_PERMISSION: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_STORAGE_PERMISSION_CAMERA:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // If you get permission, launch the camera
                     launchCamera();
                 } else {
@@ -96,8 +137,17 @@ public class PanoActivity extends SingleFragmentActivity implements EnterPageFra
                     Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case REQUEST_STORAGE_PERMISSION_CHOOSER:
+                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        // If you get permission, launch the camera
+                        openImageChooser();
+                    } else {
+                        // If you do not get permission, show a Toast
+                        Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
             }
-        }
+
     }
 
     @Override
@@ -112,39 +162,20 @@ public class PanoActivity extends SingleFragmentActivity implements EnterPageFra
                     .commitAllowingStateLoss();
         }
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && null != data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+                getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, EditorFragment.newInstance(BitmapFactory.decodeFile(mTempPhotoPath)))
+                    .addToBackStack(null)
+                    .commitAllowingStateLoss();
 
-
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.fragment_container, EditorFragment.newInstance(selectedImage.toString()))
-//                    .addToBackStack(null)
-//                    .commitAllowingStateLoss();
-        }
-
-
-    }
-
-    private File createImageFile() throws IOException {
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
+            }
     }
 
     private void openImageChooser(){
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.image_chooser_title)), PICK_IMAGE);
     }
 
     @Override
@@ -156,13 +187,22 @@ public class PanoActivity extends SingleFragmentActivity implements EnterPageFra
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int itemId = item.getItemId();
+        switch (item.getItemId()){
 
-        if (R.id.action_settings == itemId) {
-            NavigationUtils.openSettings(this);
-            return true;
+            case R.id.action_settings:
+                NavigationUtils.openSettings(this);
+                return true;
+            case R.id.action_instructions:
+                NavigationUtils.openInstructions(this);
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestPermission(int requestCode){
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
     }
 }

@@ -19,4 +19,10 @@
         android:id="@+id/action_save"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_save"/>
+
+    <item
+        android:title="@string/action_share"
+        android:id="@+id/action_share"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_share"/>
 </menu>

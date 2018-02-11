@@ -1,5 +1,9 @@
 package com.tzkt.andrey.instapano;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,9 +15,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.tzkt.andrey.instapano.utils.BitmapUtils;
 import com.tzkt.andrey.instapano.utils.NavigationUtils;
+
+import java.util.ArrayList;
 
 /**
  * Created by andrey on 28/01/2018.
@@ -23,6 +30,8 @@ public class PreviewActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private PagerAdapter mAdapter;
+
+    private boolean mImagesAlreadySaved = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +73,24 @@ public class PreviewActivity extends AppCompatActivity {
                 return true;
             case R.id.action_settings:
                 NavigationUtils.openSettings(this);
+                return true;
+            case R.id.action_save:
+                if (!mImagesAlreadySaved) {
+                    new SavingImagesAsyncTask().execute();
+                } else {
+                    Toast.makeText(this, getString(R.string.images_saving_error), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.action_instructions:
+                NavigationUtils.openInstructions(this);
+                return true;
+            case R.id.action_share:
+                if (BitmapUtils.uris == null) {
+                    new SharingImagesAsyncTask().execute();
+                } else {
+                    showAppChooser(BitmapUtils.uris);
+                }
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -73,5 +100,55 @@ public class PreviewActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.preview, menu);
         return true;
+    }
+
+    private final class SavingImagesAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            BitmapUtils.saveBitmaps(PreviewActivity.this);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mImagesAlreadySaved = true;
+            Toast.makeText(PreviewActivity.this, getString(R.string.images_saving_success), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private final class SharingImagesAsyncTask extends AsyncTask<Void, Void, ArrayList<Uri>> {
+
+        @Override
+        protected ArrayList<Uri> doInBackground(Void... voids) {
+            return BitmapUtils.saveBitmaps(PreviewActivity.this);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Uri> uris) {
+            mImagesAlreadySaved = true;
+            showAppChooser(uris);
+        }
+    }
+
+    private void showAppChooser(ArrayList<Uri> uris){
+
+        Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+        intent.setType("image/*");
+
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
+        try {
+            PreviewActivity.this.startActivity(Intent.createChooser(intent, PreviewActivity.this.getString(R.string.image_share_title)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        BitmapUtils.uris = null;
     }
 }

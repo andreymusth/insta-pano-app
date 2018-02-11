@@ -11,6 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:icon="@mipmap/ic_launcher">
+
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.tzkt.andrey.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name=".PanoActivity"
             android:launchMode="singleTop">
@@ -25,6 +37,11 @@
         </activity>
         <activity android:name=".PreviewActivity"
             android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".InstructionsActivity"
+            android:launchMode="singleTop">
 
         </activity>
     </application>

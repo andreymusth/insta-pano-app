@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">InstaPano</string>
+    <string name="button_choose_photo"><b>выбрать фото</b></string>
+    <string name="button_take_photo"><b>сделать фото</b></string>
+    <string name="button_save_pano"><b>сохранить</b></string>
+
+    <string name="default_parts_quantity">2</string>
+    <string name="maximum_parts_quantity">10</string>
+
+    <string name="permission_denied">В разрешении отказано</string>
+    <string name="cut_error">Части изображения не впишутся в пропорции инстаграма. Пожалуйста, установите границы, чтобы получилась зеленая область.</string>
+
+    <string name="images_saving_error">Изображения уже созданы, пожалуйста, проверьте галерею.</string>
+    <string name="images_saving_success">Изображения успешно созданы.</string>
+    <string name="image_chooser_title">Выбор изображения</string>
+    <string name="image_share_title">Поделиться</string>
+
+    <!--menu-->
+    <string name="action_settings">Настройки</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_preview">Превью</string>
+    <string name="action_instructions">Инструкции</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_rotate_left">Повернуть вправо</string>
+    <string name="action_rotate_right">Повернуть влево</string>
+
+    <!--preferences-->
+    <string name="pref_format_label">Формат изображения</string>
+    <string name="pref_format_key">output_format</string>
+
+    <!--preferences colors-->
+    <string name="format_jpg_value">jpg</string>
+    <string name="format_jpg_label">JPG</string>
+
+    <string name="format_png_value">png</string>
+    <string name="format_png_label">PNG</string>
+
+    <!--instructions-->
+    <string name="first_step">1. Выберите или сделайте фото</string>
+    <string name="second_step">2. Установите границы области до того, как они станут зелеными</string>
+    <string name="third_step">3. Дабл тап или нажмите иконку в меню, чтобы увидеть результат</string>
+    <string name="forth_step">4. Сохраните изображения в галерею, нажав кнопку сохранить</string>
+    <string name="fifth_step">5. Запостите изображения в инстаграм</string>
+    <string name="sixth_step">6. Вы восхитительны!</string>
+
+</resources>
