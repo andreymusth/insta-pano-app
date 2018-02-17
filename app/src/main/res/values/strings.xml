@@ -10,8 +10,8 @@
     <string name="permission_denied">Permission denied</string>
     <string name="cut_error">Parts of the image will not fit instagram. Please set bounds with green area</string>
 
-    <string name="images_saving_error">An images has already been created. Please check gallery.</string>
-    <string name="images_saving_success">An images has successfully been created.</string>
+    <string name="images_saving_error">Images has already been created. Please check gallery.</string>
+    <string name="images_saving_success">Images has successfully been created.</string>
     <string name="image_chooser_title">Select image</string>
     <string name="image_share_title">Share to</string>
 
@@ -36,9 +36,9 @@
     <string name="format_png_label">PNG</string>
 
     <!--instructions-->
-    <string name="first_step">1. Choose or take photo</string>
-    <string name="second_step">2. Set bounds until it became green</string>
-    <string name="third_step">3. Double tap or press icon in menu to see result</string>
+    <string name="first_step">1. Choose or take a photo</string>
+    <string name="second_step">2. Set bounds until it become green</string>
+    <string name="third_step">3. Double tap or press icon on menu to see result</string>
     <string name="forth_step">4. Save images to gallery by pressing save button</string>
     <string name="fifth_step">5. Post photos to instagram</string>
     <string name="sixth_step">6. You are amazing!</string>

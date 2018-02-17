@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +24,7 @@ import com.tzkt.andrey.instapano.utils.NavigationUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 
 public class PanoActivity extends SingleFragmentActivity implements EnterPageFragment.Callbacks,
@@ -76,13 +78,7 @@ public class PanoActivity extends SingleFragmentActivity implements EnterPageFra
                 FragmentManager fm = getSupportFragmentManager();
 
                 EditorFragment current = (EditorFragment) fm.findFragmentById(R.id.fragment_container);
-                Bitmap rotatedBitmap = BitmapUtils.rotateBitmap(current.getBitmap(), 90);
-                current.setBitmap(rotatedBitmap);
-
-                fm.beginTransaction()
-                        .detach(current)
-                        .attach(current)
-                        .commit();
+                new RotateTask(current).execute();
 
                 break;
         }
@@ -204,5 +200,36 @@ public class PanoActivity extends SingleFragmentActivity implements EnterPageFra
     private void requestPermission(int requestCode){
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+    }
+
+    public class RotateTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private EditorFragment mCurrent;
+
+        public RotateTask(EditorFragment current) {
+            mCurrent = current;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            return new WeakReference<Bitmap>(BitmapUtils.rotateBitmap(mCurrent.getBitmap())).get();
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            FragmentManager fm = getSupportFragmentManager();
+
+            mCurrent.setBitmap(result);
+
+            fm.beginTransaction()
+                    .detach(mCurrent)
+                    .attach(mCurrent)
+                    .commit();
+        }
     }
 }

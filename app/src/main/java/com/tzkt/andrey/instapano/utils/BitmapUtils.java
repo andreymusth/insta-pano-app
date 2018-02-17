@@ -157,41 +157,11 @@ public final class BitmapUtils {
         return Uri.parse(savedImagePath);
     }
 
-    public static Bitmap rotateBitmap(Bitmap source, float angle) {
+    public static Bitmap rotateBitmap(Bitmap source) {
         Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
+        matrix.postRotate(90);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
-
-//    /**
-//     * Helper method for sharing an images.
-//     *
-//     * @param context The image context.
-//     */
-//    public static ArrayList<Uri> shareImages(Context context) {
-//
-//        ArrayList<Uri> uris = new ArrayList<>();
-//
-//        for (Bitmap img: imgs) {
-//            uris.add(getImageUri(context, img));
-//        }
-//
-//        return uris;
-//
-//    }
-
-//    private static Uri getImageUri(Context c, Bitmap image) {
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//
-//        String outputFormat = getFormat(c);
-//        Bitmap.CompressFormat format = outputFormat.equals("jpg") ? Bitmap.CompressFormat.JPEG : Bitmap.CompressFormat.PNG;
-//
-//        image.compress(format, 100, bytes);
-//
-////        String path = MediaStore.Images.Media.insertImage(c.getContentResolver(), image, "Title", null);
-//        String path = saveImage(c, ima)
-//        return Uri.parse(path);
-//    }
 
     private static String getFormat(Context c) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(c);
