@@ -30,7 +30,7 @@ import java.util.Locale;
  */
 
 public final class BitmapUtils {
-    
+
     public static Bitmap[] imgs;
     public static ArrayList<Uri> uris;
 
