@@ -35,3 +35,4 @@ build/
 gradle/
 *.iml
 local.properties
+app/release
