@@ -31,7 +31,6 @@ import java.util.Locale;
 
 public final class BitmapUtils {
 
-    private static final String FILE_PROVIDER_AUTHORITY = "com.tzkt.andrey.fileprovider";
     public static Bitmap[] imgs;
     public static ArrayList<Uri> uris;
 
@@ -137,10 +136,10 @@ public final class BitmapUtils {
         }
 
         Bitmap.CompressFormat format = outputFormat.equals("jpg") ? Bitmap.CompressFormat.JPEG : Bitmap.CompressFormat.PNG;
-
+        File imageFile = null;
         // Save the new Bitmap
         if (success) {
-            File imageFile = new File(storageDir, imageFileName);
+            imageFile = new File(storageDir, imageFileName);
             savedImagePath = imageFile.getAbsolutePath();
             try {
                 OutputStream fOut = new FileOutputStream(imageFile);
@@ -154,7 +153,7 @@ public final class BitmapUtils {
             galleryAddPic(context, savedImagePath);
         }
 
-        return Uri.parse(savedImagePath);
+        return Uri.fromFile(imageFile);
     }
 
     public static Bitmap rotateBitmap(Bitmap source) {
