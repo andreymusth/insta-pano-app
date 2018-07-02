@@ -32,6 +32,7 @@ Temporary Items
 .idea/
 build/
 .gradle/
+.idea/
 gradle/
 *.iml
 local.properties
