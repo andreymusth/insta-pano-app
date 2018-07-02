@@ -2,6 +2,7 @@ package com.tzkt.andrey.instapano;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -25,6 +26,8 @@ import com.tzkt.andrey.instapano.utils.NavigationUtils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class PanoActivity extends SingleFragmentActivity implements EnterPageFragment.Callbacks,
@@ -217,7 +220,7 @@ public class PanoActivity extends SingleFragmentActivity implements EnterPageFra
 
         @Override
         protected Bitmap doInBackground(Void... params) {
-            return new WeakReference<Bitmap>(BitmapUtils.rotateBitmap(mCurrent.getBitmap())).get();
+            return new WeakReference<>(BitmapUtils.rotateBitmap(mCurrent.getBitmap())).get();
         }
 
         @Override

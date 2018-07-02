@@ -18,7 +18,6 @@ import android.widget.Button;
 public class EnterPageFragment extends Fragment implements View.OnClickListener{
 
     private int NUMBER_OF_SLICES = 2;
-    private Button mChoosePhotoButton, mTakePictureButton;
     private Callbacks mCallbacks;
 
     @Override
@@ -63,11 +62,11 @@ public class EnterPageFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_enter_page, container, false);
 
-        mChoosePhotoButton = v.findViewById(R.id.btn_choose_photo);
-        mChoosePhotoButton.setOnClickListener(this);
+        Button choosePhotoButton = v.findViewById(R.id.btn_choose_photo);
+        choosePhotoButton.setOnClickListener(this);
 
-        mTakePictureButton = v.findViewById(R.id.btn_take_photo);
-        mTakePictureButton.setOnClickListener(this);
+        Button takePictureButton = v.findViewById(R.id.btn_take_photo);
+        takePictureButton.setOnClickListener(this);
         
         return v;
     }

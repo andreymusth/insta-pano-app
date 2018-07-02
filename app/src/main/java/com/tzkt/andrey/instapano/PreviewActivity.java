@@ -1,5 +1,6 @@
 package com.tzkt.andrey.instapano;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -21,6 +22,8 @@ import com.tzkt.andrey.instapano.utils.BitmapUtils;
 import com.tzkt.andrey.instapano.utils.NavigationUtils;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by andrey on 28/01/2018.
@@ -150,5 +153,10 @@ public class PreviewActivity extends AppCompatActivity {
         super.onStop();
 
         BitmapUtils.uris = null;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

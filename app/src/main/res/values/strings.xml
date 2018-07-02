@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">InstaPano</string>
-    <string name="button_choose_photo"><b>choose photo</b></string>
-    <string name="button_take_photo"><b>take photo</b></string>
-    <string name="button_save_pano"><b>save</b></string>
+    <string name="button_choose_photo">choose</string>
+    <string name="button_take_photo">take</string>
+    <string name="button_save_pano">save</string>
 
     <string name="default_parts_quantity">2</string>
     <string name="maximum_parts_quantity">10</string>
