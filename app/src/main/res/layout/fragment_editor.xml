@@ -31,8 +31,7 @@
             android:layout_height="44dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/tv_current_parts"
-            android:scaleType="center"
-            android:tint="@android:color/white"
+            app:fabCustomSize="44dp"
             app:srcCompat="@drawable/ic_remove" />
 
         <TextView
@@ -55,6 +54,7 @@
             android:layout_toEndOf="@+id/tv_current_parts"
             android:scaleType="center"
             android:tint="@android:color/white"
+            app:fabCustomSize="44dp"
             app:srcCompat="@drawable/ic_add" />
 
     </RelativeLayout>

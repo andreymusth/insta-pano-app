@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:title="@string/action_rotate_right"
-        android:id="@+id/action_rotate_right"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_rotate_right"/>
+<!--    <item-->
+<!--        android:title="@string/action_rotate_right"-->
+<!--        android:id="@+id/action_rotate_right"-->
+<!--        app:showAsAction="ifRoom"-->
+<!--        android:icon="@drawable/ic_action_rotate_right"/>-->
 
     <item
         android:title="@string/action_preview"

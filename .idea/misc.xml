@@ -3,14 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-hdpi/button_bg_blue_rounded.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_fragment.xml" value="0.128125" />
         <entry key="app/src/main/res/layout/activity_instructions.xml" value="0.13698284561049445" />
         <entry key="app/src/main/res/layout/activity_preview.xml" value="0.13698284561049445" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.13698284561049445" />
-        <entry key="app/src/main/res/layout/fragment_editor.xml" value="0.13698284561049445" />
+        <entry key="app/src/main/res/layout/fragment_editor.xml" value="0.3523469203175257" />
         <entry key="app/src/main/res/layout/fragment_enter_page.xml" value="0.13698284561049445" />
         <entry key="app/src/main/res/layout/fragment_instructions.xml" value="0.13698284561049445" />
         <entry key="app/src/main/res/layout/fragment_preview.xml" value="0.13698284561049445" />
+        <entry key="app/src/main/res/menu/editor.xml" value="0.275" />
+        <entry key="app/src/main/res/menu/preview.xml" value="0.128125" />
       </map>
     </option>
   </component>

@@ -6,10 +6,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
 import androidx.annotation.Nullable;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,7 +37,7 @@ import java.io.IOException;
  * Created by andrey on 03/11/2017.
  */
 
-public class EditorFragment extends Fragment implements View.OnClickListener, LimiterView.OnDoubleTapListener{
+public class EditorFragment extends Fragment implements View.OnClickListener, LimiterView.OnDoubleTapListener {
 
     private static final String IMAGE_PATH = "com.tzkt.andrey.instapano.IMAGE_PATH";
 
@@ -55,7 +59,6 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
     private int mPartsQuantity = 2;
 
     public static EditorFragment newInstance(String imagePath) {
-
         Bundle args = new Bundle();
         args.putSerializable(IMAGE_PATH, imagePath);
         EditorFragment fragment = new EditorFragment();
@@ -64,7 +67,6 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
     }
 
     public static EditorFragment newInstance(Bitmap takenPhoto) {
-
         EditorFragment fragment = new EditorFragment();
         fragment.setBitmap(takenPhoto);
         return fragment;
@@ -117,9 +119,9 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
             case R.id.action_preview:
                 onDoubleTap();
                 return true;
-            case R.id.action_rotate_right:
-                mCallbacks.onButtonClicked(R.id.action_rotate_right);
-                return true;
+//            case R.id.action_rotate_right:
+//                mCallbacks.onButtonClicked(R.id.action_rotate_right);
+//                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -133,7 +135,6 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragment_editor, container, false);
         if (mBitmap == null) {
             try {
@@ -173,7 +174,7 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
                     mLimiterView.init(mBitmap, mPartsQuantity, mContainer.getTop(), mContainer.getBottom(), mContainer.getLeft(), mContainer.getRight());
                 }
             });
-            if(mLimiterView.getParent() != null)
+            if (mLimiterView.getParent() != null)
                 ((ViewGroup) mLimiterView.getParent()).removeView(mLimiterView);
             mContainer.addView(mLimiterView, 0);
 
@@ -198,8 +199,7 @@ public class EditorFragment extends Fragment implements View.OnClickListener, Li
         startAnimation();
     }
 
-    private void startAnimation()
-    {
+    private void startAnimation() {
         Animation a = AnimationUtils.loadAnimation(getActivity(), R.anim.text_popup);
         a.reset();
         mCurrentParts.clearAnimation();

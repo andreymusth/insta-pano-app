@@ -32,14 +32,15 @@ public final class BitmapUtils {
     public static Bitmap[] imgs;
     public static ArrayList<Uri> uris;
 
-    public static void splitBitmap(Bitmap realBitmap,
-                                   Bitmap scaledBitmap,
-                                   PointF leftTopEdge,
-                                   PointF leftBottomEdge,
-                                   PointF rightTopEdge,
-                                   float leftEdge,
-                                   float topEdge,
-                                   int partsQuantity) {
+    public static void splitBitmap(
+            Bitmap realBitmap,
+            Bitmap scaledBitmap,
+            PointF leftTopEdge,
+            PointF leftBottomEdge,
+            PointF rightTopEdge,
+            float leftEdge,
+            float topEdge,
+            int partsQuantity) {
 
         imgs = new Bitmap[partsQuantity];
 
@@ -49,8 +50,8 @@ public final class BitmapUtils {
         int height = (int) ((leftBottomEdge.y - leftTopEdge.y) * ratio);
         int y = (int) ((leftTopEdge.y - topEdge) * ratio);
 
-        if (height > realBitmap.getHeight()) {
-            height = realBitmap.getHeight();
+        if (height + y > realBitmap.getHeight()) {
+            height = realBitmap.getHeight() - y;
         }
 
         for (int i = 0; i < imgs.length; i++) {
@@ -95,11 +96,16 @@ public final class BitmapUtils {
     }
 
     public static File createTempImageFile(Context context) throws IOException {
+        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = context.getExternalCacheDir();
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-        return File.createTempFile(imageFileName, ".jpg", storageDir);
+        return File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",   /* suffix */
+                storageDir      /* directory */
+        );
     }
 
     private static void galleryAddPic(Context context, String imagePath) {

@@ -136,7 +136,6 @@ public class PreviewActivity extends AppCompatActivity {
     }
 
     private void showAppChooser(ArrayList<Uri> uris) {
-
         Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         intent.setType("image/*");
 

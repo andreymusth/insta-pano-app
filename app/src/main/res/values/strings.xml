@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">InstaPano</string>
-    <string name="button_choose_photo">choose</string>
-    <string name="button_take_photo">take</string>
+    <string name="button_choose_photo">choose image</string>
+    <string name="button_take_photo">take picture</string>
     <string name="button_save_pano">save</string>
 
     <string name="default_parts_quantity">2</string>
@@ -42,5 +42,4 @@
     <string name="forth_step">4. Save images to gallery by pressing save button</string>
     <string name="fifth_step">5. Post photos to instagram</string>
     <string name="sixth_step">6. You are amazing!</string>
-
 </resources>

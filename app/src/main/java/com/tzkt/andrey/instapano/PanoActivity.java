@@ -26,11 +26,12 @@ import com.tzkt.andrey.instapano.utils.NavigationUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 
 
-public class PanoActivity extends SingleFragmentActivity
-        implements EnterPageFragment.Callbacks, EditorFragment.Callbacks {
+public class PanoActivity
+        extends SingleFragmentActivity
+        implements EnterPageFragment.Callbacks,
+        EditorFragment.Callbacks {
 
     public static final int PICK_IMAGE = 1;
     private static final int REQUEST_STORAGE_PERMISSION_CAMERA = 21;
@@ -73,22 +74,21 @@ public class PanoActivity extends SingleFragmentActivity
             case R.id.action_preview:
                 NavigationUtils.openPreview(this);
                 break;
-            case R.id.action_rotate_right:
-
-                // finding current fragment
-
-                FragmentManager fm = getSupportFragmentManager();
-
-                EditorFragment current = (EditorFragment) fm.findFragmentById(R.id.fragment_container);
-                new RotateTask(current).execute();
-
-                break;
+//            case R.id.action_rotate_right:
+//
+//                // finding current fragment
+//
+//                FragmentManager fm = getSupportFragmentManager();
+//
+//                EditorFragment current = (EditorFragment) fm.findFragmentById(R.id.fragment_container);
+//                new RotateTask(current).execute();
+//
+//                break;
         }
 
     }
 
     private void launchCamera() {
-
         // Create the capture image intent
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -138,7 +138,7 @@ public class PanoActivity extends SingleFragmentActivity
                 break;
             case REQUEST_STORAGE_PERMISSION_CHOOSER:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // If you get permission, launch the camera
+                    // If you get permission, open image chooser
                     openImageChooser();
                 } else {
                     // If you do not get permission, show a Toast
@@ -155,18 +155,19 @@ public class PanoActivity extends SingleFragmentActivity
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
 
-            getSupportFragmentManager().beginTransaction()
+            getSupportFragmentManager()
+                    .beginTransaction()
                     .replace(R.id.fragment_container, EditorFragment.newInstance(selectedImage.toString()))
                     .addToBackStack(null)
                     .commitAllowingStateLoss();
         }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            getSupportFragmentManager().beginTransaction()
+            getSupportFragmentManager()
+                    .beginTransaction()
                     .replace(R.id.fragment_container, EditorFragment.newInstance(BitmapFactory.decodeFile(mTempPhotoPath)))
                     .addToBackStack(null)
                     .commitAllowingStateLoss();
-
         }
     }
 
@@ -216,7 +217,7 @@ public class PanoActivity extends SingleFragmentActivity
 
         @Override
         protected Bitmap doInBackground(Void... params) {
-            return new WeakReference<>(BitmapUtils.rotateBitmap(mCurrent.getBitmap())).get();
+            return BitmapUtils.rotateBitmap(mCurrent.getBitmap());
         }
 
         @Override
