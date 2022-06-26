@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -21,8 +25,6 @@ import com.tzkt.andrey.instapano.utils.BitmapUtils;
 import com.tzkt.andrey.instapano.utils.NavigationUtils;
 
 import java.util.ArrayList;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by andrey on 28/01/2018.
@@ -69,7 +71,7 @@ public class PreviewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
-        switch (itemId){
+        switch (itemId) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -133,7 +135,7 @@ public class PreviewActivity extends AppCompatActivity {
         }
     }
 
-    private void showAppChooser(ArrayList<Uri> uris){
+    private void showAppChooser(ArrayList<Uri> uris) {
 
         Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         intent.setType("image/*");
@@ -152,10 +154,5 @@ public class PreviewActivity extends AppCompatActivity {
         super.onStop();
 
         BitmapUtils.uris = null;
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

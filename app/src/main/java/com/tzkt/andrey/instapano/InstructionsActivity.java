@@ -1,15 +1,14 @@
 package com.tzkt.andrey.instapano;
 
-import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tzkt.andrey.instapano.utils.NavigationUtils;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by andrey on 05/02/2018.
@@ -45,10 +44,5 @@ public class InstructionsActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.instructions, menu);
         return true;
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
