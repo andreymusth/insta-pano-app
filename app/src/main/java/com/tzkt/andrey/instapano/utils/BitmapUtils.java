@@ -1,7 +1,6 @@
 package com.tzkt.andrey.instapano.utils;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,13 +8,12 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
-import android.support.v7.preference.PreferenceManager;
+
+import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
 
 import com.tzkt.andrey.instapano.R;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,13 +33,13 @@ public final class BitmapUtils {
     public static ArrayList<Uri> uris;
 
     public static void splitBitmap(Bitmap realBitmap,
-                                       Bitmap scaledBitmap,
-                                       PointF leftTopEdge,
-                                       PointF leftBottomEdge,
-                                       PointF rightTopEdge,
-                                       float leftEdge,
-                                       float topEdge,
-                                       int partsQuantity) {
+                                   Bitmap scaledBitmap,
+                                   PointF leftTopEdge,
+                                   PointF leftBottomEdge,
+                                   PointF rightTopEdge,
+                                   float leftEdge,
+                                   float topEdge,
+                                   int partsQuantity) {
 
         imgs = new Bitmap[partsQuantity];
 
@@ -55,7 +53,7 @@ public final class BitmapUtils {
             height = realBitmap.getHeight();
         }
 
-        for (int i = 0; i < imgs.length ; i++) {
+        for (int i = 0; i < imgs.length; i++) {
 
             int currentX = (int) ((leftTopEdge.x - leftEdge) * ratio) + width * i;
             int currentWidth = width;
@@ -83,20 +81,17 @@ public final class BitmapUtils {
     }
 
     public static ArrayList<Uri> saveBitmaps(Context c) {
-
         // getting output format from shared preferences
-
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String outputFormat = getFormat(c);
 
         uris = new ArrayList<>();
 
-        for (int i = 0; i < imgs.length ; i++) {
+        for (int i = 0; i < imgs.length; i++) {
             uris.add(saveImage(c, imgs[i], timeStamp, i, outputFormat));
         }
 
         return uris;
-
     }
 
     public static File createTempImageFile(Context context) throws IOException {

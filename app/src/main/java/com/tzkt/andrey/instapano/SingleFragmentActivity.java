@@ -2,10 +2,11 @@ package com.tzkt.andrey.instapano;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.LayoutRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -18,7 +19,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     public abstract Fragment createFragment();
 
     @LayoutRes
-    protected int getResLayoutId(){
+    protected int getResLayoutId() {
         return R.layout.activity_masterdetail;
     }
 
@@ -42,5 +43,4 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 }

@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".InstaPanoApplication"
+        android:name=".InstaPanoApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,9 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.tzkt.andrey.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -27,6 +26,7 @@
 
         <activity
             android:name=".PanoActivity"
+            android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,15 +39,12 @@
         </activity>
         <activity
             android:name=".PreviewActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".InstructionsActivity"
-            android:launchMode="singleTop">
-
-        </activity>
+            android:exported="false"
+            android:launchMode="singleTop" />
     </application>
-
 </manifest>

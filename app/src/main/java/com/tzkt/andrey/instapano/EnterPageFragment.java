@@ -3,9 +3,11 @@ package com.tzkt.andrey.instapano;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,7 @@ import android.widget.Button;
  * Created by andrey on 03/11/2017.
  */
 
-public class EnterPageFragment extends Fragment implements View.OnClickListener{
+public class EnterPageFragment extends Fragment implements View.OnClickListener {
 
     private int NUMBER_OF_SLICES = 2;
     private Callbacks mCallbacks;
@@ -67,7 +69,7 @@ public class EnterPageFragment extends Fragment implements View.OnClickListener{
 
         Button takePictureButton = v.findViewById(R.id.btn_take_photo);
         takePictureButton.setOnClickListener(this);
-        
+
         return v;
     }
 
